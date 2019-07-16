@@ -6,9 +6,9 @@ using namespace std;
 const int MOD = 1000000007;
 const int MAXN = 1000005;
 
-LL n, a[MAXN], dp1[MAXN], dp2[MAXN], nxt[MAXN];
+int n, a[MAXN], dp1[MAXN], dp2[MAXN], nxt[MAXN];
 
-LL run(LL _n, LL* _a) {
+LL run(int _n, int* _a) {
     /* Copy the parameters, this is for convenience of testing. */
     n = _n;
     copy(_a, _a + n, a);
@@ -23,10 +23,10 @@ LL run(LL _n, LL* _a) {
     dp1[n] = 1, dp2[n] = 0;
     for (int i = n - 1; i >= 0; i--) {
         num = (num - dp1[nxt[a[i]] + 1]) % MOD;
-        sum = (sum - a[i] * dp1[nxt[a[i]] + 1] - dp2[nxt[a[i]] + 1]) % MOD;
+        sum = (sum - (LL) a[i] * dp1[nxt[a[i]] + 1] - dp2[nxt[a[i]] + 1]) % MOD;
         nxt[a[i]] = i;
         num = (num + dp1[nxt[a[i]] + 1]) % MOD;
-        sum = (sum + a[i] * dp1[nxt[a[i]] + 1] + dp2[nxt[a[i]] + 1]) % MOD;
+        sum = (sum + (LL) a[i] * dp1[nxt[a[i]] + 1] + dp2[nxt[a[i]] + 1]) % MOD;
 
         num = (num + MOD) % MOD;
         sum = (sum + MOD) % MOD;

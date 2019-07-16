@@ -26,7 +26,7 @@ int run(int _n, int* _a) {
         for (int j = i; j < n; j++) {
             if (occ.find(a[j]) == occ.end()) {
                 occ.insert(a[j]);
-                dp1[i] = (dp1[i] + dp1[j + 1]);
+                dp1[i] = (dp1[i] + dp1[j + 1]) % MOD;
                 dp2[i] = (dp2[i] + (LL) a[j] * dp1[j + 1] + dp2[j + 1]) % MOD;
             }
         }
