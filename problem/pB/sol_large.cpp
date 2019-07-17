@@ -39,11 +39,8 @@ LL run(int _n, int* _a) {
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        cin >> n;
+	
+    while (cin >> n) {
     	for (int i = 0; i < n; i++) {
     		cin >> a[i];
     	}

@@ -4,7 +4,7 @@
 #define LL long long
 using namespace std;
 const int MOD = 1000000007;
-const int MAXN = 25;
+const int MAXN = 12;
 
 int n, a[MAXN];
 
@@ -57,12 +57,12 @@ int run(int _n, int* _a) {
 	}
 
 	int sum = 0;
-	cout << "At total " << all.size() << '\n';
+//	cout << "At total " << all.size() << '\n';
 	for (const vector<int> &v : all) {
 //        cout << "Get:";
 		for (int x : v) {
 //            cout << " " << x;
-			sum = (sum + x) % MOD;
+			sum = sum + x;
 		}
 //        cout << '\n';
 	}
@@ -72,16 +72,12 @@ int run(int _n, int* _a) {
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        cin >> n;
-    	for (int i = 0; i < n; i++) {
-    		cin >> a[i];
-    	}
-    	cout << run(n, a) << '\n';
-    }
+	
+	cin >> n; 
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	cout << run(n, a) << '\n';
 
 	return 0;
 }
