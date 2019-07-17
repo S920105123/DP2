@@ -26,7 +26,9 @@ int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	fill(from_r, from_r + MAXN, -INF);
 	fill(from_d1, from_d1 + 2 * MAXN, -INF);
 	fill(from_d2, from_d2 + 2 * MAXN, -INF);
-	rnk.clear();
+	for (int i = 0; i < MAXC; i++) {
+		rnk[i].clear();
+	}
 	
 	/* Find order */
 	for (int i = 0; i < N; i++) {

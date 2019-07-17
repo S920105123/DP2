@@ -5,20 +5,16 @@
 #define LL long long
 #define PII pair<int, int> 
 const int INF = (int)1e9 + 5;
-const int MAXN = 45;
+const int MAXN = 505;
 const int MAXC = 100005;
 using namespace std;
 
 typedef vector<int> vec;
 typedef vector<vec> mat;
 
-struct Edge {
-	int r1, c1, r2, c2, w;
-};
-
-int N, M, dist[MAXN][MAXN];
+int N, M, dp[MAXN][MAXN];
 mat H, P;
-vector<Edge> es;
+vector<PII> rnk[MAXC];
 
 int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	/* Copy the parameters for convenience of testing. */
@@ -26,56 +22,58 @@ int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	M = _M;
 	H = move(_H);
 	P = move(_P);
-	es.clear();
+	for (int i = 0; i < MAXC; i++) {
+		rnk[i].clear();
+	}
+	
+	/* Find order */
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			dist[i][j] = -INF;
+			rnk[H[i][j]].push_back({i, j});
 		}
 	}
 	
-	/* Construct graph */
-	for (int r = 0; r < N; r++) {
-		for (int c = 0; c < M; c++) {
+	/* Do dp */
+	for (int i = 0; i < MAXC; i++) {
+		for (PII &coord : rnk[i]) {
+			int r = coord.first, c = coord.second;
+			if (r == src.first && c == src.second) {
+				dp[r][c] = P[r][c];
+				continue;
+			}
+			
+			dp[r][c] = -INF;
+			
 			/* For every point in the same row */
-			for (int i = 0; i < M; i++) {
-				if (H[r][c] < H[r][i]) {
-					es.push_back({r, c, r, i, P[r][i]});
+			for (int j = 0; j < M; j++) {
+				if (H[r][c] > H[r][j]) {
+					dp[r][c] = max(dp[r][c], dp[r][j]);
 				}
 			}
 			
-			/* For every point in diagnal direction 1 */
-			int t = r - c;
-			for (int i = 0; i < N; i++) {
-				int j = i - t;
-				if (0 <= j && j < M && H[r][c] < H[i][j]) {
-					es.push_back({r, c, i, j, P[i][j]});
+			/* For every point in diagnal direction */
+			int t = r + c;
+			for (int j = 0; j < N; j++) {
+				int pr = j, pc = t - pr;
+				if (0 <= pc && pc < M && H[r][c] > H[pr][pc]) {
+					dp[r][c] = max(dp[r][c], dp[pr][pc]);
+				}
+			}
+			t = r - c;
+			for (int j = 0; j < N; j++) {
+				int pr = j, pc = pr - t;
+				if (0 <= pc && pc < M && H[r][c] > H[pr][pc]) {
+					dp[r][c] = max(dp[r][c], dp[pr][pc]);
 				}
 			}
 			
-			/* For every point in diagnal direction 2 */
-			for (int i = 0; i <= min(N, M); i++) {
-				if (r + i < N && c - i >= 0 && H[r][c] < H[r + i][c - i]) {
-					es.push_back({r, c, r + i, c - i, P[r + i][c - i]});
-				}
-				if (r - i >= 0 && c + i < M && H[r][c] < H[r - i][c + i]) {
-					es.push_back({r, c, r - i, c + i, P[r - i][c + i]});
-				}
+			if (dp[r][c] != -INF) {
+				dp[r][c] += P[r][c];
 			}
 		}
 	}
 	
-	int V = N * M;
-	dist[src.first][src.second] = P[src.first][src.second];
-	for (int i = 0; i < V - 1; i++) {
-		for (const Edge &e : es) {
-			int relax = dist[e.r1][e.c1] + e.w;
-			if (dist[e.r1][e.c1] != -INF && relax > dist[e.r2][e.c2]) {
-				dist[e.r2][e.c2] = relax;
-			}
-		}
-	}
-	
-	return dist[tgt.first][tgt.second];
+	return dp[tgt.first][tgt.second];
 }
 
 int main() {
