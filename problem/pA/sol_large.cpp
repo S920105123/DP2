@@ -26,6 +26,14 @@ int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	fill(from_r, from_r + MAXN, -INF);
 	fill(from_d1, from_d1 + 2 * MAXN, -INF);
 	fill(from_d2, from_d2 + 2 * MAXN, -INF);
+	rnk.clear();
+	
+	/* Find order */
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			rnk[H[i][j]].push_back({i, j});
+		}
+	}
 	
 	/* Do dp[i][j]: Maximum profit to reach here from (rs, cs). */
 	for (int i = 0; i < MAXC; i++) {
@@ -63,7 +71,6 @@ int main() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			cin >> H[i][j];
-			rnk[H[i][j]].push_back({i, j});
 		}
 	}
 	for (int i = 0; i < N; i++) {
