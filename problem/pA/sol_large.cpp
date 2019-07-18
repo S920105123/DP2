@@ -2,6 +2,8 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <cassert>
+#include <tuple>
 #define LL long long
 #define PII pair<int, int> 
 const int INF = (int)1e9 + 5;
@@ -12,9 +14,23 @@ using namespace std;
 typedef vector<int> vec;
 typedef vector<vec> mat;
 
-int N, M, from_r[MAXN], from_d1[2 * MAXN], from_d2[2 * MAXN];
+int N, M, rs, cs, rt, ct, from_r[MAXN], from_d1[2 * MAXN], from_d2[2 * MAXN];
 mat H, P, dp;
 vector<PII> rnk[MAXC];
+
+void input_assertion() {
+	assert(N * M <= 1000000);
+	assert(0 <= rs && rs < N);
+	assert(0 <= cs && cs < M);
+	assert(0 <= rt && rt < N);
+	assert(0 <= ct && ct < M);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			assert(-10 < P[i][j] && P[i][j] < 10);
+			assert(0 <= H[i][j] && H[i][j] < 1000000);
+		}
+	}
+}
 
 int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	/* Copy the parameters for convenience of testing. */
@@ -29,6 +45,9 @@ int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 	for (int i = 0; i < MAXC; i++) {
 		rnk[i].clear();
 	}
+	tie(rs, cs) = src;
+	tie(rt, ct) = tgt;
+	input_assertion();
 	
 	/* Find order */
 	for (int i = 0; i < N; i++) {

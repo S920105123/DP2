@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <tuple>
+#include <cassert>
 #define LL long long
 #define PII pair<int, int> 
 const int MAXN = 5;
@@ -16,6 +17,21 @@ namespace Small {
 	
 int N, M, H[MAXN][MAXN], P[MAXN][MAXN];
 int rs, cs, rt, ct;
+
+void input_assertion() {
+	assert(N <= 3);
+	assert(M <= 3);
+	assert(0 <= rs && rs < N);
+	assert(0 <= cs && cs < M);
+	assert(0 <= rt && rt < N);
+	assert(0 <= ct && ct < M);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			assert(-10 < P[i][j] && P[i][j] < 10);
+			assert(0 <= H[i][j] && H[i][j] < 1000000);
+		}
+	}
+}
 
 int dfs(int r, int c, int profit) {
 	if (r == rt && c == ct) {
@@ -48,6 +64,7 @@ int run(int _N, int _M, PII _src, PII _tgt, mat _H, mat _P) {
 			P[i][j] = _P[i][j];
  		}
 	}
+	input_assertion();
 	
 	/* Do DFS */
 	return dfs(rs, cs, P[rs][cs]);

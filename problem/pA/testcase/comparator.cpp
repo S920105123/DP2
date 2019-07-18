@@ -197,11 +197,11 @@ void rand_gen() {
 void strong_pattern() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (rng() % 100 < 100) {
+			if (rng() % 30) {
 				H[i][j] = i * M + j;
 			}
 			else {
-				H[i][j] = rng() % 10000;
+				H[i][j] = rng() % 100000;
 			}
 			P[i][j] = rng() % 19 - 9;
 		}
@@ -245,7 +245,7 @@ int main() {
 	while (true) {
 		N = rng() % range_N + 1;
 		M = rng() % range_N + 1;
-		N = 2, M = 500000;
+		N = 987, M = 778;
 		if (N == 1 && M == 1) continue;
 		H = mat(N, vec(M));
 		P = mat(N, vec(M));
@@ -265,13 +265,13 @@ int main() {
 
 		if (ans1 != INF) assert(ans1 == ans2);
 		if (ans2 != INF) assert(ans2 == ans3);
-		if (ans3 > 60000) {
+		if (ans3 > 800000) {
 			fans << ans3 << '\n';
 			fout << N << " " << M << " " << rs << " " << cs << " " << rt << " " << ct << "\n\n";
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
 					fout << H[i][j] << " \n"[j == M - 1];
-					assert(0 <= H[i][j] && H[i][j] < 100000);
+					assert(0 <= H[i][j] && H[i][j] < 1000000);
 				}
 			}
 			fout << '\n';
