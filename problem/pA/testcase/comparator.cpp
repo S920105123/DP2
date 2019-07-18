@@ -53,7 +53,7 @@ int run(int _N, int _M, PII _src, PII _tgt, mat _H, mat _P) {
 namespace Medium {
 const int INF = (int)1e9 + 5;
 const int MAXN = 505;
-const int MAXC = 100005;
+const int MAXC = 1000005;
 
 int N, M, dp[MAXN][MAXN];
 mat H, P;
@@ -122,8 +122,8 @@ int run(int _N, int _M, PII src, PII tgt, mat _H, mat _P) {
 
 namespace Large {
 const int INF = (int)1e9 + 5;
-const int MAXN = 100005;
-const int MAXC = 100005;
+const int MAXN = 1000005;
+const int MAXC = 1000005;
 
 int N, M, from_r[MAXN], from_d1[2 * MAXN], from_d2[2 * MAXN];
 mat H, P, dp;
@@ -189,7 +189,7 @@ void rand_gen() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			H[i][j] = rng() % range_A;
-			P[i][j] = rng() % 21 - 10;
+			P[i][j] = rng() % 19 - 9;
 		}
 	}
 }
@@ -197,15 +197,20 @@ void rand_gen() {
 void strong_pattern() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			H[i][j] = i * M + j;
-			P[i][j] = 1;
+			if (rng() % 100 < 100) {
+				H[i][j] = i * M + j;
+			}
+			else {
+				H[i][j] = rng() % 10000;
+			}
+			P[i][j] = rng() % 19 - 9;
 		}
 		
 		int dice = rng() % 3;
-		if (i % 2 == 1) {
+		if (dice == 1) {
 			reverse(H[i].begin(), H[i].end());
 		}
-		else if (rng() % 15 == 0) {
+		else if (dice == 0) {
 			random_shuffle(H[i].begin(), H[i].end());
 		}
 	}
@@ -240,40 +245,40 @@ int main() {
 	while (true) {
 		N = rng() % range_N + 1;
 		M = rng() % range_N + 1;
-		N = 287, M = 183;
+		N = 2, M = 500000;
 		if (N == 1 && M == 1) continue;
 		H = mat(N, vec(M));
 		P = mat(N, vec(M));
-		weak_pattern();
-//		rs = rand() % N;
-//		cs = rand() % M;
-//		do {
-//			rt = rand() % N;
-//			ct = rand() % M;
-//		} while (rs == rt && cs == ct);
-		rs = 5, cs = 0;
-		rt = N - 1, ct = M - 5;
+		strong_pattern();
+		rs = rand() % N;
+		cs = rand() % M;
+		do {
+			rt = rand() % N;
+			ct = rand() % M;
+		} while (rs == rt && cs == ct);
 		
 		int ans1 = INF, ans2 = INF, ans3 = INF;
 //		ans1 = Small::run(N, M, {rs, cs}, {rt, ct}, H, P);
-		ans2 = Medium::run(N, M, {rs, cs}, {rt, ct}, H, P);
+//		ans2 = Medium::run(N, M, {rs, cs}, {rt, ct}, H, P);
 		ans3 = Large::run(N, M, {rs, cs}, {rt, ct}, H, P);
 		cout << N << " " << M  << " get " << ans1 << " " << ans2 << " " << ans3 << '\n';
 
 		if (ans1 != INF) assert(ans1 == ans2);
 		if (ans2 != INF) assert(ans2 == ans3);
-		if (ans3 > 250) {
+		if (ans3 > 60000) {
 			fans << ans3 << '\n';
 			fout << N << " " << M << " " << rs << " " << cs << " " << rt << " " << ct << "\n\n";
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
 					fout << H[i][j] << " \n"[j == M - 1];
+					assert(0 <= H[i][j] && H[i][j] < 100000);
 				}
 			}
 			fout << '\n';
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
 					fout << P[i][j] << " \n"[j == M - 1];
+					assert(-10 < P[i][j] && P[i][j] < 10);
 				}
 			}
 			break;

@@ -5,8 +5,8 @@
 #define LL long long
 #define PII pair<int, int> 
 const int INF = (int)1e9 + 5;
-const int MAXN = 100005;
-const int MAXC = 100005;
+const int MAXN = 1000005;
+const int MAXC = 1000005;
 using namespace std;
 
 typedef vector<int> vec;
