@@ -113,12 +113,15 @@ PII* run(int _N, int *_a) {
 }
 
 int main() {
-//	ios_base::sync_with_stdio(0);
-//	cin.tie(0);
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	
 	cin >> N;
+	assert(N <= 100000);
 	for (int i = 0; i < N; i++) {
 		cin >> a[i];
+		assert(-1000000 < a[i]);
+		assert(a[i] < 1000000);
 	}
 	
 	PII *output = run(N, a);
