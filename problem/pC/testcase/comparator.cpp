@@ -4,7 +4,7 @@
 using namespace std;
 
 namespace Large {
-const int MAXN = 100005;
+const int MAXN = 1000005;
 const int INF = (int) 1e9 + 5;
 struct Segment_tree {
 	int minv[4*MAXN], add[4*MAXN];
@@ -159,7 +159,7 @@ PII* run(int _N, int *_a) {
 }
 }
 
-const int MAXN = 100005;
+const int MAXN = 1000005;
 int N, a[MAXN];
 mt19937 rng(time(NULL));
 
@@ -237,7 +237,7 @@ void rand_gen() {
 //	cout << "A";
 	if (rng() % 2) {
 		for (int i = 0; i < N; i++) {
-			a[i] = rng() % 1000000;
+			a[i] = rng() % 10000000;
 		}
 	}
 	else {
@@ -257,7 +257,7 @@ int main() {
 	
 	int turn = 0;
 	while (true) {
-		N = rng() % 100000 + 1;
+		N = rng() % 1000000 + 1;
 		if (turn % 4 == 0) rand_weak_inc();
 		else if (turn % 4 == 1) rand_gen();
 		else if (turn % 4 == 2) rand_inc();
@@ -279,9 +279,9 @@ int main() {
 			mx = max(mx, res2[i].second);
 		}
 		
-		if (ps.size() > 200) {
+		if (ps.size() > 500) {
 			cout << N << " " << ps.size() << ' ' << mx << " " << turn % 4 << '\n';
-			if (mx <= 1 || ps.size() < 250) continue;
+			if (mx < 3 || ps.size() < 1200) continue;
 			fout << N << '\n';
 			for (int i = 0; i < N; i++) {
 				fout << a[i] << " \n"[i == N - 1];

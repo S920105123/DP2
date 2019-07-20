@@ -6,7 +6,7 @@
 #include <cassert>
 #define LL long long
 #define PII pair<int, int>
-const int MAXN = 100005;
+const int MAXN = 1000005;
 const int INF = (int) 1e9 + 5;
 using namespace std;
 
@@ -117,11 +117,11 @@ int main() {
 	cin.tie(0);
 	
 	cin >> N;
-	assert(N <= 100000);
+	assert(N <= 1000000);
 	for (int i = 0; i < N; i++) {
 		cin >> a[i];
-		assert(-1000000 < a[i]);
-		assert(a[i] < 1000000);
+		assert(0 <= a[i]);
+		assert(a[i] < 10000000);
 	}
 	
 	PII *output = run(N, a);
