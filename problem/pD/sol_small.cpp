@@ -7,9 +7,10 @@
 #define PII pair<int, int>
 const int MAXK = 25;
 const int MAXW = 1005;
+const int MAXN = 1005;
 using namespace std;
 
-int N, K, W, dp[MAXW], wei[MAXK], val[MAXK];
+int N, K, W, dp[MAXW], wei[MAXN], val[MAXN];
 
 int run(int _K, int _W, int *_ws, vector<int> *_item) {
 	/* Copy the parameters, it is for convenience of testing. */
@@ -40,10 +41,9 @@ int _N, _K, _W, _wei[MAXK];
 vector<int> _item[MAXK];
 
 int main() {
-//	ios_base::sync_with_stdio(0);
-//	cin.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0);
 	
-	cin >> _N >> _K >> _W;
+	cin >> _N >> _W >> _K;
 	for (int i = 1; i <= _K; i++) {
 		cin >> _wei[i];
 	}

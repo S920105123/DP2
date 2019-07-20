@@ -151,11 +151,11 @@ mt19937 rng(time(NULL));
 
 void rand_gen() {
 	for (int i = 1; i <= K; i++) {
-		if (rng() % 100 == 0 || W < 10) {
-			wei[i] = rng() % W + 1;
+		if (rng() % 5 == 0) {
+			wei[i] = rng() % min(W, 50) + 1;
 		}
 		else {
-			wei[i] = rng() % min(W, 100) + 1;
+			wei[i] = rng() % min(W, 10) + 1;
 		}
 	}
 }
@@ -168,9 +168,10 @@ int main() {
 	fout.open("in.in");
 	fans.open("out.ans");
 
-	int range = 1000;
+	int range = 100000;
 	while (true) {
 		W = rng() % range + 1, N = rng() % range + 1, K = rng() % 20 + 1;
+		N = W = range;
 		
 		rand_gen();
 		for (int i = 1; i <= K; i++) {
@@ -183,9 +184,9 @@ int main() {
 		
 //		cout << "Go " << N << " " << W << " " << K << '\n';
 		int ans1 = -1, ans2 = -1, wa = -1;
-		ans1 = Small::run(K, W, wei, item);
+//		ans1 = Small::run(K, W, wei, item);
 		ans2 = Large::run(K, W, wei, item);
-		wa = WA::run(K, W, wei, item);
+//		wa = WA::run(K, W, wei, item);
 //		cout << ans1 << " " << ans2 << " " <<wa <<'\n';
 		
 //		cout << "Get " << ans1 << " " << ans2 << '\n';
@@ -193,7 +194,7 @@ int main() {
 //		if (wa != -1) assert(wa == ans2);
 
 		
-		if (wa != ans2) {
+//		if (wa != ans2) {
 			fout << N << " " << W << " " << K << '\n';
 			for (int i = 1; i <= K; i++) {
 				fout << wei[i] << " \n"[i == K];
@@ -204,7 +205,7 @@ int main() {
 			
 			fans << ans2 << "\n";
 			break;
-		}
+//		}
 	}
 	
 	fout.close();
