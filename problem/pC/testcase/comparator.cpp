@@ -222,6 +222,7 @@ void rand_weak_inc() {
 				a[i] = a[i - 1] + 1;
 			}
 		}
+		while (a[i] < 0) a[i]++;
 	}	
 	if (rng() % 3) {
 		for (int i = 0; i < N / 50; i++) {
@@ -271,17 +272,18 @@ int main() {
 //		PII *res1 = Medium::run(N, a);
 		PII *res2 = Large::run(N, a);
 		
-		int mx = 0;
+		int mx1 = 0, mx2 = 0;
 		set<PII> ps;
 		for (int i = 0; i < N; i++) {
 //			assert(res1[i] == res2[i]);
 			ps.insert(res2[i]);
-			mx = max(mx, res2[i].second);
+			mx1 = max(mx1, res2[i].second);
+			mx2 = max(mx2, res2[i].first);
 		}
 		
 		if (ps.size() > 200) {
-			cout << N << " " << ps.size() << ' ' << mx << " " << turn % 4 << '\n';
-			if (mx <= 1 || ps.size() < 250) continue;
+			cout << N << " " << ps.size() << ' ' << mx1 << " " << mx2 << " " << turn % 4 << '\n';
+			if (mx1 <= 1 || ps.size() < 280) continue;
 			fout << N << '\n';
 			for (int i = 0; i < N; i++) {
 				fout << a[i] << " \n"[i == N - 1];

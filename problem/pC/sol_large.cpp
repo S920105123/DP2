@@ -120,8 +120,7 @@ int main() {
 	assert(N <= 100000);
 	for (int i = 0; i < N; i++) {
 		cin >> a[i];
-		assert(-1000000 < a[i]);
-		assert(a[i] < 1000000);
+		assert(0 <= a[i] && a[i] < 1000000);
 	}
 	
 	PII *output = run(N, a);
