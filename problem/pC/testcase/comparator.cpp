@@ -4,11 +4,11 @@
 using namespace std;
 
 namespace Large {
-const int MAXN = 100005;
+const int MAXN = 1000005;
 const int INF = (int) 1e9 + 5;
 struct Segment_tree {
 	int minv[4*MAXN], add[4*MAXN];
-	
+
 	void init(int l, int r, int idx) {
 		add[idx] = 0;
 		minv[idx] = INF;
@@ -20,7 +20,7 @@ struct Segment_tree {
 		init(l, m, idx << 1);
 		init(m + 1, r, idx << 1 | 1);
 	}
-	
+
 	void range_add(int ql, int qr, int val, int l, int r, int idx) {
 		if (ql <= l && r <= qr) {
 			add[idx] += val;
@@ -32,13 +32,13 @@ struct Segment_tree {
 		if (qr >  m) range_add(ql, qr, val, m + 1, r, idx << 1 | 1);
 		minv[idx] = min(minv[idx << 1], minv[idx << 1 | 1]) + add[idx];
 	}
-	
+
 	int search_for(int bound, int added, int l, int r, int idx) {
 		if (l == r) {
 			assert(minv[idx] + added <= bound);
 			return l;
 		}
-		
+
 		added += add[idx];
 		int left_mi = minv[idx << 1] + added, right_mi = minv[idx << 1 | 1] + added, m = (l + r) >> 1;
 //		cout << "Tree " << bound << " " << l << " " << r << " " << left_mi << " " << right_mi << '\n';
@@ -66,7 +66,7 @@ PII* run(int _N, int *_a) {
 		ed[i].clear();
 		a[i] = _a[i - 1];
 	}
-	
+
 	/* Put everything into data structure, and mix them up. */
 	for (int i = N; i >= 1; i--) {
 //		cout << "At " << i << " " << a[i] << '\n';
@@ -85,10 +85,10 @@ PII* run(int _N, int *_a) {
 		}
 		stk2.push_back(i);
 		tree.range_add(i, i, -INF - i, 1, N, 1);
-		
+
 		longest[i] = tree.search_for(1 - i, 0, 1, N, 1) - i + 1;
 	}
-	
+
 	/* Sweep line */
 	map<int, int> sweep;
 	for (int i = 1; i <= N; i++) {
@@ -100,10 +100,10 @@ PII* run(int _N, int *_a) {
 				sweep.erase(sweep.find(x));
 			}
 		}
-		
+
 		ans[i] = *sweep.rbegin();
 	}
-	
+
 	/* Tada! */
 	return ans + 1;
 }
@@ -123,7 +123,7 @@ PII* run(int _N, int *_a) {
 		ed[i].clear();
 		a[i] = _a[i];
 	}
-	
+
 	/* Enumerate all possible interval */
 	for (int i = 0; i < N; i++) {
 		maxv[i][i] = minv[i][i] = a[i];
@@ -137,7 +137,7 @@ PII* run(int _N, int *_a) {
 			}
 		}
 	}
-	
+
 	/* Sweepline */
 	map<int, int> sweep;
 	for (int i = N - 1; i >= 0; i--) {
@@ -151,15 +151,15 @@ PII* run(int _N, int *_a) {
 				sweep.erase(sweep.find(x));
 			}
 		}
-		
+
 		ans[i] = *sweep.rbegin();
 	}
-	
+
 	return ans;
 }
 }
 
-const int MAXN = 100005;
+const int MAXN = 1000005;
 int N, a[MAXN];
 mt19937 rng(time(NULL));
 
@@ -175,7 +175,7 @@ void rand_inc() {
 		else {
 			a[i] = a[i - 1] + 1;
 		}
-	}	
+	}
 //	cout << "Get " << a[0] << " " << a[N - 1] << '\n';
 }
 
@@ -196,7 +196,7 @@ void rand_partitioned_inc() {
 				a[i] = a[i - 1] + 1;
 			}
 		}
-	}	
+	}
 //	cout << "Get " << a[0] << " " << a[N - 1] << '\n';
 }
 
@@ -223,7 +223,7 @@ void rand_weak_inc() {
 			}
 		}
 		while (a[i] < 0) a[i]++;
-	}	
+	}
 	if (rng() % 3) {
 		for (int i = 0; i < N / 50; i++) {
 			int j = rng() % N, k = rng() % 10;
@@ -238,7 +238,7 @@ void rand_gen() {
 //	cout << "A";
 	if (rng() % 2) {
 		for (int i = 0; i < N; i++) {
-			a[i] = rng() % 1000000;
+			a[i] = rng() % 10000000;
 		}
 	}
 	else {
@@ -255,23 +255,23 @@ int main() {
 	ofstream fout, fans;
 	fout.open("in.in");
 	fans.open("out.ans");
-	
+
 	int turn = 0;
 	while (true) {
-		N = rng() % 100000 + 1;
+		N = rng() % 1000000 + 1;
 		if (turn % 4 == 0) rand_weak_inc();
 		else if (turn % 4 == 1) rand_gen();
 		else if (turn % 4 == 2) rand_inc();
 		else rand_partitioned_inc();
 		turn++;
-		
+
 //		cout << "Go test " << N << '\n';
 //		for (int i = 0; i < N; i++) {
 //			cout << a[i] << " \n"[i == N - 1];
 //		}
 //		PII *res1 = Medium::run(N, a);
 		PII *res2 = Large::run(N, a);
-		
+
 		int mx1 = 0, mx2 = 0;
 		set<PII> ps;
 		for (int i = 0; i < N; i++) {
@@ -280,10 +280,10 @@ int main() {
 			mx1 = max(mx1, res2[i].second);
 			mx2 = max(mx2, res2[i].first);
 		}
-		
-		if (ps.size() > 200) {
-			cout << N << " " << ps.size() << ' ' << mx1 << " " << mx2 << " " << turn % 4 << '\n';
-			if (mx1 <= 1 || ps.size() < 280) continue;
+
+		if (ps.size() > 500) {
+			cout << N << " " << ps.size() << ' ' << mx << " " << turn % 4 << '\n';
+			if (mx < 3 || ps.size() < 1200) continue;
 			fout << N << '\n';
 			for (int i = 0; i < N; i++) {
 				fout << a[i] << " \n"[i == N - 1];
@@ -300,7 +300,7 @@ int main() {
 //			cout << res1[i].first << " " << res2[i].first << '\n';
 //		}
 //		cout << '\n';
-		
+
 //		break;
 	}
 }

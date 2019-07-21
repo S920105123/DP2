@@ -6,13 +6,13 @@
 #include <cassert>
 #define LL long long
 #define PII pair<int, int>
-const int MAXN = 100005;
+const int MAXN = 1000005;
 const int INF = (int) 1e9 + 5;
 using namespace std;
 
 struct Segment_tree {
 	int minv[4*MAXN], add[4*MAXN];
-	
+
 	void init(int l, int r, int idx) {
 		add[idx] = 0;
 		minv[idx] = INF;
@@ -24,7 +24,7 @@ struct Segment_tree {
 		init(l, m, idx << 1);
 		init(m + 1, r, idx << 1 | 1);
 	}
-	
+
 	void range_add(int ql, int qr, int val, int l, int r, int idx) {
 		if (ql <= l && r <= qr) {
 			add[idx] += val;
@@ -36,13 +36,13 @@ struct Segment_tree {
 		if (qr >  m) range_add(ql, qr, val, m + 1, r, idx << 1 | 1);
 		minv[idx] = min(minv[idx << 1], minv[idx << 1 | 1]) + add[idx];
 	}
-	
+
 	int search_for(int bound, int added, int l, int r, int idx) {
 		if (l == r) {
 			assert(minv[idx] + added <= bound);
 			return l;
 		}
-		
+
 		added += add[idx];
 		int left_mi = minv[idx << 1] + added, right_mi = minv[idx << 1 | 1] + added, m = (l + r) >> 1;
 //		cout << "Tree " << bound << " " << l << " " << r << " " << left_mi << " " << right_mi << '\n';
@@ -70,7 +70,7 @@ PII* run(int _N, int *_a) {
 		ed[i].clear();
 		a[i] = _a[i - 1];
 	}
-	
+
 	/* Put everything into data structure, and mix them up. */
 	for (int i = N; i >= 1; i--) {
 //		cout << "At " << i << " " << a[i] << '\n';
@@ -89,10 +89,10 @@ PII* run(int _N, int *_a) {
 		}
 		stk2.push_back(i);
 		tree.range_add(i, i, -INF - i, 1, N, 1);
-		
+
 		longest[i] = tree.search_for(1 - i, 0, 1, N, 1) - i + 1;
 	}
-	
+
 	/* Sweep line */
 	map<int, int> sweep;
 	for (int i = 1; i <= N; i++) {
@@ -104,10 +104,10 @@ PII* run(int _N, int *_a) {
 				sweep.erase(sweep.find(x));
 			}
 		}
-		
+
 		ans[i] = *sweep.rbegin();
 	}
-	
+
 	/* Tada! */
 	return ans + 1;
 }
@@ -115,14 +115,14 @@ PII* run(int _N, int *_a) {
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	
+
 	cin >> N;
-	assert(N <= 100000);
+	assert(N <= 1000000);
 	for (int i = 0; i < N; i++) {
 		cin >> a[i];
 		assert(0 <= a[i] && a[i] < 1000000);
 	}
-	
+
 	PII *output = run(N, a);
 	for (int i = 0; i < N; i++) {
 		cout << output[i].first << " " <<output[i].second << '\n';
